@@ -48,8 +48,9 @@ public class PostService {
     }
 
     public PostResponseDto getPost(Long postId) {
-        // 받아온 id와 일치하는 post 객체 생성, DTO로 변환 후 반환 및 예외 처리
+        // 받아온 id와 일치하는 post 객체 생성 및 예외 처리
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 id의 게시물이 없습니다."));
+        // DTO로 변환 후 반환
         return new PostResponseDto(post);
     }
 
@@ -65,6 +66,18 @@ public class PostService {
 
         // 받아온 정보로 게시글 수정
         post.update(postRequestDto);
+    }
+
+    // 추후 유저 인증 정보 추가 필요
+    public void deletePost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 id의 게시물이 없습니다."));
+
+        /*
+        추후 권한 검증 로직 구현 필요
+        */
+
+        // DB에서 삭제
+        postRepository.delete(post);
     }
 }
 

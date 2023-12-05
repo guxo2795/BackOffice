@@ -20,6 +20,10 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String content;
 
+    /*
+    추후 User 연관관계 설정 필요
+    */
+
     public Post(PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
