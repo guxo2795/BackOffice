@@ -24,4 +24,9 @@ public class Post extends Timestamped {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
     }
+
+    public void update(PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle() == null ? this.title : postRequestDto.getTitle();
+        this.content = postRequestDto.getContent() == null ? this.content : postRequestDto.getContent();
+    }
 }
