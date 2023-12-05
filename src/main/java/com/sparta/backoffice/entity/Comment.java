@@ -15,12 +15,6 @@ public class Comment extends TimeStamped {
     @Column
     private String text;
 
-
-    // 서비스 메서드
-    public void setText(String text) {
-        this.text = text;
-    }
-
 //    @ManyToOne
 //    @JoinColumn(name = "post_id")
 //    private Post post;
@@ -29,4 +23,8 @@ public class Comment extends TimeStamped {
 //    @JoinColumn(name = "user_id")
 //    private User user;
 
+    // 서비스 메서드
+    public void setText(String text) {
+        this.text = text;
+    }
 }
