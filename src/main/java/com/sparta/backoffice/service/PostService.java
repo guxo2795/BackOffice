@@ -70,6 +70,7 @@ public class PostService {
 
     // 추후 유저 인증 정보 추가 필요
     public void deletePost(Long postId) {
+        // 받아온 id와 일치하는 post 객체 생성 및 예외 처리
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 id의 게시물이 없습니다."));
 
         /*
