@@ -32,4 +32,13 @@ public class PostController {
     public List<PostResponseDto> getPostList() {
         return postService.getPostList();
     }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<CommonResponseDto> getPost(@PathVariable Long postId) {
+        try {
+            return ResponseEntity.ok().body(postService.getPost(postId));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+    }
 }

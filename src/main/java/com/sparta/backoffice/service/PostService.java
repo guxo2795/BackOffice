@@ -45,5 +45,10 @@ public class PostService {
         }
         return responseDtoList;
     }
+
+    public PostResponseDto getPost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 id의 게시물이 없습니다."));
+        return new PostResponseDto(post);
+    }
 }
 
