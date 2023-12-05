@@ -1,15 +1,18 @@
 package com.sparta.backoffice.service;
 
 import com.sparta.backoffice.dto.CommentCreateRequestDto;
+import com.sparta.backoffice.dto.CommentModifyRequestDto;
 import com.sparta.backoffice.dto.CommentResponseDto;
 import com.sparta.backoffice.entity.Comment;
 import com.sparta.backoffice.repository.CommentRepository;
 //import com.sparta.backoffice.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,5 +51,20 @@ public class CommentService {
 //        }
 
         return findCommentList.stream().map(CommentResponseDto::new).collect(Collectors.toList());
+    }
+
+    // 댓글 수정 API
+    @Transactional
+    public CommentResponseDto modifyComment(Long postId,
+                                            Long commentId,
+                                            CommentModifyRequestDto commentModifyRequestDto) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글 입니다."));
+
+        comment.update(commentModifyRequestDto);
+        // 요청받은 postId와 db의 postId가 같아야 하고
+
+        // 수정은 자기 자신이 작성한 것이어야 수정이 가능함
+        commentRepository.save(comment);
+        return new CommentResponseDto(comment);
     }
 }

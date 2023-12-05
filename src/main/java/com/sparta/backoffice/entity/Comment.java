@@ -1,5 +1,6 @@
 package com.sparta.backoffice.entity;
 
+import com.sparta.backoffice.dto.CommentModifyRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,5 +27,9 @@ public class Comment extends TimeStamped {
     // 서비스 메서드
     public void setText(String text) {
         this.text = text;
+    }
+
+    public void update(CommentModifyRequestDto commentModifyRequestDto) {
+        this.text = commentModifyRequestDto.getText();
     }
 }

@@ -1,6 +1,7 @@
 package com.sparta.backoffice.controller;
 
 import com.sparta.backoffice.dto.CommentCreateRequestDto;
+import com.sparta.backoffice.dto.CommentModifyRequestDto;
 import com.sparta.backoffice.dto.CommentResponseDto;
 import com.sparta.backoffice.entity.Comment;
 import com.sparta.backoffice.service.CommentService;
@@ -31,5 +32,14 @@ public class CommentController {
     public ResponseEntity<List<CommentResponseDto>> getComment(Long postId){
         List<CommentResponseDto> commentResponseDto = commentService.getComment(postId);
         return ResponseEntity.status(201).body(commentResponseDto);
+    }
+
+    // 댓글 수정 API
+    @PatchMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<CommentResponseDto> modifyComment(@PathVariable Long postId,
+                                                            @PathVariable Long commentId,
+                                                            @RequestBody CommentModifyRequestDto commentModifyRequestDto){
+       CommentResponseDto commentResponseDto = commentService.modifyComment(postId, commentId, commentModifyRequestDto);
+       return ResponseEntity.status(201).body(commentResponseDto);
     }
 }
