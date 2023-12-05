@@ -47,6 +47,7 @@ public class PostService {
     }
 
     public PostResponseDto getPost(Long postId) {
+        // 받아온 id와 일치하는 post 객체 생성, DTO로 변환 후 반환 및 예외 처리
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 id의 게시물이 없습니다."));
         return new PostResponseDto(post);
     }
