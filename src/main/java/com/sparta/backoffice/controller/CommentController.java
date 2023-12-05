@@ -42,4 +42,12 @@ public class CommentController {
        CommentResponseDto commentResponseDto = commentService.modifyComment(postId, commentId, commentModifyRequestDto);
        return ResponseEntity.status(201).body(commentResponseDto);
     }
+
+    // 댓글 삭제 API
+    @DeleteMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<CommentResponseDto> deleteComment(@PathVariable Long postId,
+                                                            @PathVariable Long commentId){
+        CommentResponseDto commentResponseDto = commentService.deleteComment(postId, commentId);
+        return ResponseEntity.status(201).body(commentResponseDto);
+    }
 }
