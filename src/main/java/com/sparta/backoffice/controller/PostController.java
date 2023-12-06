@@ -44,11 +44,10 @@ public class PostController {
         }
     }
 
-    // 추후 유저 인증 정보 추가 필요
     @PatchMapping("/{postId}")
-    public ResponseEntity<CommonResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto postRequestDto) {
+    public ResponseEntity<CommonResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            postService.updatePost(postId, postRequestDto);
+            postService.updatePost(postId, postRequestDto, userDetails);
             return ResponseEntity.ok().body(new CommonResponseDto("수정 완료", HttpStatus.OK.value()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(),HttpStatus.BAD_REQUEST.value()));
