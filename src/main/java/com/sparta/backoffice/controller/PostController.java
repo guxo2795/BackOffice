@@ -35,7 +35,6 @@ public class PostController {
         return postService.getPostList();
     }
 
-    // 추후 ResponseDto에 nickname 추가 필요
     @GetMapping("/{postId}")
     public ResponseEntity<CommonResponseDto> getPost(@PathVariable Long postId) {
         try {
