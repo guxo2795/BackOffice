@@ -80,6 +80,18 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED.value()).body(userResponseDto);
     }
 
+    @PatchMapping("/profile/update")
+    public ResponseEntity<CommonResponseDto> update(@RequestBody UserUpdateRequestDto userRequestDto,
+                                                    @AuthenticationPrincipal UserDetailsImpl userDetails){
+        UserResponseDto userResponseDto;
+        try {
+            userResponseDto = userService.updateProfile(userRequestDto, userDetails);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+        return ResponseEntity.status(HttpStatus.OK.value()).body(userResponseDto);
+    }
+
 
 
 }

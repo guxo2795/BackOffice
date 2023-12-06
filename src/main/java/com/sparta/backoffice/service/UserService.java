@@ -85,5 +85,13 @@ public class UserService {
         return new UserResponseDto(user);
     }
 
+    @Transactional//프로필 수정
+    public UserResponseDto updateProfile(UserUpdateRequestDto userUpdateRequestDto, UserDetailsImpl userDetails) {
+        user = userDetails.getUser();
+        user.updateUser(userUpdateRequestDto);
+        userRepository.save(user);
+        return new UserResponseDto(user);
+    }
+
 
 }
