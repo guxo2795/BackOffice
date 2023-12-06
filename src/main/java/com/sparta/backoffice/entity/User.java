@@ -21,10 +21,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-
-//    @Column(nullable = false)
-//    @Enumerated(value = EnumType.STRING)
-//    private UserRoleEnum role;
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
 
 
     @Column(nullable = false)
@@ -42,10 +41,10 @@ public class User {
     @Column
     private String userurl;
 
-    public User(String username, String password, String nickname, Integer age, String email, String userinfo, String userurl) {
+    public User(String username, String password, String nickname, UserRoleEnum role, Integer age, String email, String userinfo, String userurl) {
         this.username = username;
         this.password = password;
-//        this.role = role;
+        this.role = role;
         this.nickname = nickname;
         this.age = age;
         this.email = email;
