@@ -21,7 +21,13 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column
+
+//    @Column(nullable = false)
+//    @Enumerated(value = EnumType.STRING)
+//    private UserRoleEnum role;
+
+
+    @Column(nullable = false)
     private String nickname;
 
     @Column
@@ -39,6 +45,7 @@ public class User {
     public User(String username, String password, String nickname, Integer age, String email, String userinfo, String userurl) {
         this.username = username;
         this.password = password;
+//        this.role = role;
         this.nickname = nickname;
         this.age = age;
         this.email = email;
