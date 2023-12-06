@@ -69,14 +69,14 @@ public class PostService {
         post.update(postRequestDto);
     }
 
-    // 추후 유저 인증 정보 추가 필요
-    public void deletePost(Long postId) {
+    public void deletePost(Long postId, UserDetailsImpl userDetails) {
         // 해당 게시물의 id와 일치하는지 검증 및 post 객체 생성
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 id의 게시물이 없습니다."));
 
-        /*
-        추후 권한 검증 로직 구현 필요
-        */
+        // 해당 게시물의 작성자와 일치하는지 검증
+        if (!Objects.equals(post.getUser().getId(), userDetails.getUser().getId())) {
+            throw new IllegalArgumentException("게시물 작성자만 수정 및 삭제 가능합니다.");
+        }
 
         // DB에서 삭제
         postRepository.delete(post);
