@@ -29,7 +29,7 @@ public class PostController {
         }
         return ResponseEntity.ok().body(new CommonResponseDto("게시물 등록 완료",HttpStatus.OK.value()));
     }
-    // 추후 ResponseDto에 nickname 추가 필요
+
     @GetMapping
     public List<PostResponseDto> getPostList() {
         return postService.getPostList();

@@ -15,7 +15,7 @@ public class PostResponseDto extends CommonResponseDto {
 
     public PostResponseDto(Post post) {
         this.title = post.getTitle();
-        // this.nickname = post.getUser.getNickname 유저 정보 추가 후 닉네임 추가 필요
+        this.nickname = post.getUser().getNickname();
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
