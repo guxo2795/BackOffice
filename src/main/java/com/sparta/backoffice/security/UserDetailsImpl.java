@@ -14,7 +14,6 @@ public class UserDetailsImpl implements UserDetails {
 
 
     public UserDetailsImpl(User user) {
-        System.out.println("user" + user.getUsername());
         this.user = user;
     }
 

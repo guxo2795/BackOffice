@@ -50,9 +50,7 @@ public class UserService {
 
     @Transactional//비밀번호 변경
     public PwdResponseDto updatePwd(PwdUpdateRequestDto pwdUpdateRequestDto, UserDetailsImpl userDetails) {
-//        user = userDetails.getUser();
-        user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow(() ->
-                new IllegalArgumentException("비밀번호 없습니다"));
+        user = userDetails.getUser();
         String newPwd = passwordEncoder.encode(pwdUpdateRequestDto.getPassword());
         user.updatePwd(newPwd);
         userRepository.save(user);

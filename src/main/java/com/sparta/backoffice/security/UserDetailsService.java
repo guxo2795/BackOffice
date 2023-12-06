@@ -4,7 +4,6 @@ package com.sparta.backoffice.security;
 import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
