@@ -10,6 +10,7 @@ public class PostResponseDto extends CommonResponseDto {
     private String title;
     private String nickname;
     private String content;
+    private Long likes;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -17,6 +18,7 @@ public class PostResponseDto extends CommonResponseDto {
         this.title = post.getTitle();
         this.nickname = post.getUser().getNickname();
         this.content = post.getContent();
+        this.likes = (long) post.getPostLikes().size();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
     }

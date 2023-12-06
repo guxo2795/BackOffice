@@ -4,6 +4,7 @@ import com.sparta.backoffice.dto.CommonResponseDto;
 import com.sparta.backoffice.dto.PostResponseDto;
 import com.sparta.backoffice.dto.PostRequestDto;
 import com.sparta.backoffice.security.UserDetailsImpl;
+import com.sparta.backoffice.service.LikePostService;
 import com.sparta.backoffice.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final LikePostService postLikesService;
 
     @PostMapping
     public ResponseEntity<CommonResponseDto> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -61,6 +63,21 @@ public class PostController {
             return ResponseEntity.ok().body(new CommonResponseDto("삭제 완료", HttpStatus.OK.value()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(),HttpStatus.BAD_REQUEST.value()));
+        }
+    }
+
+    @PostMapping("/{postId}/likes")
+    public ResponseEntity<CommonResponseDto> toggleLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            boolean liked = postLikesService.toggleLike(postId, userDetails);
+
+            if (liked) {
+                return ResponseEntity.ok().body(new CommonResponseDto("좋아요!", HttpStatus.OK.value()));
+            } else {
+                return ResponseEntity.ok().body(new CommonResponseDto("좋아요 취소!", HttpStatus.OK.value()));
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 }
