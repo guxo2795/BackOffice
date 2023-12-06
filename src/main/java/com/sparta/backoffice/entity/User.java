@@ -1,5 +1,6 @@
 package com.sparta.backoffice.entity;
 
+import com.sparta.backoffice.dto.PwdUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,5 +45,9 @@ public class User {
         this.email = email;
         this.userinfo = userinfo;
         this.userurl = userurl;
+    }
+
+    public void updatePwd(String newPassword){
+        this.password = newPassword;
     }
 }

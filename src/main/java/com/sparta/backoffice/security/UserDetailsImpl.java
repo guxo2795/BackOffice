@@ -12,7 +12,9 @@ public class UserDetailsImpl implements UserDetails {
     @Getter
     private final User user;
 
+
     public UserDetailsImpl(User user) {
+        System.out.println("user" + user.getUsername());
         this.user = user;
     }
 
@@ -22,9 +24,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return user.getPassword();
-    }
+    public String getPassword() {return user.getPassword();}
 
     @Override
     public String getUsername() {

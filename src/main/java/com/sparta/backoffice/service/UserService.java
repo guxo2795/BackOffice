@@ -1,8 +1,12 @@
 package com.sparta.backoffice.service;
 
+import com.sparta.backoffice.dto.PwdResponseDto;
+import com.sparta.backoffice.dto.PwdUpdateRequestDto;
 import com.sparta.backoffice.dto.UserRequestDto;
 import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.repository.UserRepository;
+import com.sparta.backoffice.security.UserDetailsImpl;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-
+    private  User user;
     // 회원가입
     public void signup(UserRequestDto userRequestDto) {
         String username = userRequestDto.getUsername();
@@ -44,5 +48,14 @@ public class UserService {
         }
     }
 
-
+    @Transactional//비밀번호 변경
+    public PwdResponseDto updatePwd(PwdUpdateRequestDto pwdUpdateRequestDto, UserDetailsImpl userDetails) {
+//        user = userDetails.getUser();
+        user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow(() ->
+                new IllegalArgumentException("비밀번호 없습니다"));
+        String newPwd = passwordEncoder.encode(pwdUpdateRequestDto.getPassword());
+        user.updatePwd(newPwd);
+        userRepository.save(user);
+        return new PwdResponseDto(user);
+    }
 }
