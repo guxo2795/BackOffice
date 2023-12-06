@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommentResponseDto {
+public class CommentResponseDto extends CommonResponseDto {
 
     private Long commentId;
     private String nickname;    // User에서 가져온다?

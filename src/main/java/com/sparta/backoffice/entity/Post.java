@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -23,6 +26,9 @@ public class Post extends Timestamped {
     /*
     추후 User 연관관계 설정 필요
     */
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList = new ArrayList<>();
 
     public Post(PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();
