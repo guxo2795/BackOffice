@@ -3,10 +3,12 @@ package com.sparta.backoffice.controller;
 import com.sparta.backoffice.dto.CommonResponseDto;
 import com.sparta.backoffice.dto.PostResponseDto;
 import com.sparta.backoffice.dto.PostRequestDto;
+import com.sparta.backoffice.security.UserDetailsImpl;
 import com.sparta.backoffice.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,11 +20,10 @@ public class PostController {
 
     private final PostService postService;
 
-    // 추후 유저 인증 정보 추가 필요
     @PostMapping
-    public ResponseEntity<CommonResponseDto> createPost(@RequestBody PostRequestDto requestDto) {
+    public ResponseEntity<CommonResponseDto> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            postService.createPost(requestDto);
+            postService.createPost(requestDto, userDetails);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }

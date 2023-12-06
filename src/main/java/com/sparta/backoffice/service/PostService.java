@@ -4,6 +4,7 @@ import com.sparta.backoffice.dto.PostResponseDto;
 import com.sparta.backoffice.dto.PostRequestDto;
 import com.sparta.backoffice.entity.Post;
 import com.sparta.backoffice.repository.PostRepository;
+import com.sparta.backoffice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +18,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    // 추후 유저 인증 정보 추가 필요
-    public void createPost(PostRequestDto postRequestDto) {
+    public void createPost(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
 
         // 예외 처리
         if (postRequestDto.getTitle() == null) {
@@ -28,7 +28,7 @@ public class PostService {
         }
 
         // 받아온 정보로 post 객체 생성
-        Post post = new Post(postRequestDto);
+        Post post = new Post(postRequestDto, userDetails);
 
         // DB에 저장
         postRepository.save(post);
