@@ -46,6 +46,12 @@ public class User {
     @Column
     private String userurl;
 
+    @OneToMany(mappedBy = "user")
+    private List<Post> postList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<LikePost> postLikes = new ArrayList<>();
+
     public User(String username, String password, String nickname, UserRoleEnum role, Integer age, String email, String userinfo, String userurl) {
         this.username = username;
         this.password = password;
