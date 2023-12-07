@@ -1,5 +1,7 @@
 package com.sparta.backoffice.jwt;
 
+
+import com.sparta.backoffice.entity.UserRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -19,10 +21,13 @@ public class JwtUtil {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
 
+    public static final String AUTHORIZATION_KEY = "auth";
+
     @Value("${jwt.secret.key}")
     private String secretKey;
     private Key key;
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+
 
     @PostConstruct
     public void init() {
@@ -60,16 +65,19 @@ public class JwtUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
-    public String createToken(String username) {
+
+    public String createToken(String username, UserRoleEnum role) {
         Date date = new Date();
 
         long TOKEN_TIME = 60 * 60 * 1000;
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username)
+                        .claim(AUTHORIZATION_KEY, role)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)
                         .compact();
     }
+
 }

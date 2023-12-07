@@ -13,10 +13,11 @@ import org.springframework.stereotype.Service;
 public class UserDetailsService {
 
     private final UserRepository userRepository;
-
-    public UserDetails getUserDetails(String username) {
+  
+    public UserDetailsImpl getUserDetails(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Not Found" + username));
         return new UserDetailsImpl(user);
+
     }
 }

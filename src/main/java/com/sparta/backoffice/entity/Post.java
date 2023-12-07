@@ -1,6 +1,7 @@
 package com.sparta.backoffice.entity;
 
 import com.sparta.backoffice.dto.PostRequestDto;
+import com.sparta.backoffice.security.UserDetailsImpl;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,16 +24,22 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String content;
 
-    /*
-    추후 User 연관관계 설정 필요
-    */
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "post")
+    private List<LikePost> postLikes;
+
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
-    public Post(PostRequestDto postRequestDto) {
+
+    public Post(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
+        this.user = userDetails.getUser();
     }
 
     public void update(PostRequestDto postRequestDto) {

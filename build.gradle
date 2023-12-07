@@ -23,20 +23,33 @@ repositories {
 
 dependencies {
 
-	//mysql
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	//jpa
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	//security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	//validation
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	//web
+	// Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+	// WEB
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	//lombok
+
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// SECURITY
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	//jwt
+
+	// MySql
+	runtimeOnly 'com.mysql:mysql-connector-j:'
+
+	// Develop
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// JWT
 	compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
@@ -44,7 +57,6 @@ dependencies {
 	// json
 	implementation 'org.json:json:20230227'
 
-	testImplementation 'org.springframework.security:spring-security-test'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
@@ -53,9 +65,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
-tasks.named('bootBuildImage') {
-	builder = 'paketobuildpacks/builder-jammy-base:latest'
-}
 
 tasks.named('bootBuildImage') {
 	builder = 'paketobuildpacks/builder-jammy-base:latest'
