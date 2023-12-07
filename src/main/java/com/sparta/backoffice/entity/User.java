@@ -1,9 +1,14 @@
 package com.sparta.backoffice.entity;
 
+import com.sparta.backoffice.dto.PwdUpdateRequestDto;
+import com.sparta.backoffice.dto.UserUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -50,5 +55,17 @@ public class User {
         this.email = email;
         this.userinfo = userinfo;
         this.userurl = userurl;
+    }
+
+    public void updateUser(UserUpdateRequestDto userUpdateRequestDto){
+        this.nickname = userUpdateRequestDto.getNickname();
+        this.age = userUpdateRequestDto.getAge();
+        this.email = userUpdateRequestDto.getEmail();
+        this.userinfo = userUpdateRequestDto.getUserinfo();
+        this.userurl = userUpdateRequestDto.getUserurl();
+    }
+
+    public void updatePwd(String newPassword){
+        this.password = newPassword;
     }
 }
