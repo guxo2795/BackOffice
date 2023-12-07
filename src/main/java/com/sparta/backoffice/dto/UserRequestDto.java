@@ -1,5 +1,6 @@
 package com.sparta.backoffice.dto;
 
+
 import com.sparta.backoffice.entity.UserRoleEnum;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -12,16 +13,12 @@ public class UserRequestDto {
     private String username;
     @Pattern(regexp = "[A-Za-z\\d~!@#$%^&*()+|=]{8,15}$")
     private String password;
-
     // 회원 권한 부여
     private UserRoleEnum role;
-
     private String nickname;
     private Integer age;
     private String email;
     private String userinfo;
     private String userurl;
-
-
 
 }

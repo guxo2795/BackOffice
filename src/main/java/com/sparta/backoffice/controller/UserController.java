@@ -1,5 +1,6 @@
 package com.sparta.backoffice.controller;
 
+
 import com.sparta.backoffice.dto.*;
 import com.sparta.backoffice.jwt.JwtUtil;
 import com.sparta.backoffice.security.UserDetailsImpl;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 
 @RequestMapping("/api/users")
 @RestController
@@ -41,10 +43,13 @@ public class UserController {
             return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
 
+
         response.setHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(userRequestDto.getUsername(), userRequestDto.getRole()));
+
 
         return ResponseEntity.ok().body(new CommonResponseDto("로그인 성공", HttpStatus.OK.value()));
     }
+
 
     @PostMapping("/checkpwd")
     public ResponseEntity<CommonResponseDto> checkPwd(@RequestBody PwdCheckRequestDto pwdCheckRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
@@ -91,4 +96,5 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.OK.value()).body(userResponseDto);
     }
+
 }

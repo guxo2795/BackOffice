@@ -1,11 +1,13 @@
 package com.sparta.backoffice.entity;
 
+
 import com.sparta.backoffice.dto.PwdUpdateRequestDto;
 import com.sparta.backoffice.dto.UserUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
@@ -45,6 +48,7 @@ public class User {
 
     @Column
     private String userurl;
+
 
     @OneToMany(mappedBy = "user")
     private List<Post> postList = new ArrayList<>();

@@ -22,6 +22,7 @@ repositories {
 }
 
 dependencies {
+
 	// Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
@@ -32,7 +33,7 @@ dependencies {
 	// Validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	//JPA
+	// JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 	// SECURITY
@@ -56,10 +57,14 @@ dependencies {
 	// json
 	implementation 'org.json:json:20230227'
 
-	testImplementation 'org.springframework.security:spring-security-test'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+	// Thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
+
 
 tasks.named('bootBuildImage') {
 	builder = 'paketobuildpacks/builder-jammy-base:latest'

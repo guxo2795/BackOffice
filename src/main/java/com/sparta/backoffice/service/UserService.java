@@ -1,5 +1,6 @@
 package com.sparta.backoffice.service;
 
+
 import com.sparta.backoffice.dto.*;
 import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.entity.UserRoleEnum;
@@ -15,24 +16,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+
     private User user;
     private String pwd, pwdcheck;
+
 
     // 회원가입
     public void signup(UserRequestDto userRequestDto) {
         String username = userRequestDto.getUsername();
         String password = passwordEncoder.encode(userRequestDto.getPassword());
+
         UserRoleEnum role = userRequestDto.getRole();
+
         String nickname = userRequestDto.getNickname();
         Integer age = userRequestDto.getAge();
         String email = userRequestDto.getEmail();
         String userinfo = userRequestDto.getUserinfo();
         String userurl = userRequestDto.getUserurl();
+
         if(userRepository.findByUsername(username).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 username입니다.");
         }
@@ -52,6 +59,7 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
     }
+
 
     public void checkPwd(PwdCheckRequestDto pwdCheckRequestDto, UserDetailsImpl userDetails){
         pwd = pwdCheckRequestDto.getPassword();

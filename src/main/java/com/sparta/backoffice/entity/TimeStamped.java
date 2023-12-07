@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class Timestamped {
+public abstract class TimeStamped {
 
     @CreatedDate
     @Column(updatable = false)          // update 가 되지 않게 막아준다.

@@ -1,5 +1,6 @@
 package com.sparta.backoffice.jwt;
 
+
 import com.sparta.backoffice.entity.UserRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -64,6 +65,7 @@ public class JwtUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
+
     public String createToken(String username, UserRoleEnum role) {
         Date date = new Date();
 
@@ -78,12 +80,4 @@ public class JwtUtil {
                         .compact();
     }
 
-//    // 토큰 만료
-//    public Long getExpiration(String accessToken) {
-//        Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
-//
-//        Long now = new Date().getTime();
-//
-//        return (expiration.getTime() - now);
-//    }
 }

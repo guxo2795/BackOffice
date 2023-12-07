@@ -39,7 +39,6 @@ public class WebSecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
         return new JwtAuthorizationFilter(jwtUtil, userDetailsService, objectMapper);
     }
