@@ -1,5 +1,7 @@
 package com.sparta.backoffice.entity;
 
+import com.sparta.backoffice.dto.PwdUpdateRequestDto;
+import com.sparta.backoffice.dto.UserUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +27,11 @@ public class User {
     private String password;
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
+
+    @Column(nullable = false)
     private String nickname;
 
     @Column
@@ -45,13 +52,26 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<LikePost> postLikes = new ArrayList<>();
 
-    public User(String username, String password, String nickname, Integer age, String email, String userinfo, String userurl) {
+    public User(String username, String password, String nickname, UserRoleEnum role, Integer age, String email, String userinfo, String userurl) {
         this.username = username;
         this.password = password;
+        this.role = role;
         this.nickname = nickname;
         this.age = age;
         this.email = email;
         this.userinfo = userinfo;
         this.userurl = userurl;
+    }
+
+    public void updateUser(UserUpdateRequestDto userUpdateRequestDto){
+        this.nickname = userUpdateRequestDto.getNickname();
+        this.age = userUpdateRequestDto.getAge();
+        this.email = userUpdateRequestDto.getEmail();
+        this.userinfo = userUpdateRequestDto.getUserinfo();
+        this.userurl = userUpdateRequestDto.getUserurl();
+    }
+
+    public void updatePwd(String newPassword){
+        this.password = newPassword;
     }
 }
