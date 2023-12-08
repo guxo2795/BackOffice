@@ -20,7 +20,7 @@ public class BackOfficeController {
 
     private final BackOfficeService backOfficeService;
 
-    // 유저 전체 목록 조회
+    // 사용자 전체 목록 조회
     @GetMapping("/users")
     public ResponseEntity<?> getUserList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -32,7 +32,7 @@ public class BackOfficeController {
         }
     }
 
-    // 유저 권한 수정
+    // 사용자 권한 수정
     @PatchMapping("/users/{userId}")
     public ResponseEntity<CommonResponseDto> updateUserRole(@PathVariable Long userId, @RequestBody UpdateUserRoleRequestDto updateUserRoleRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -42,6 +42,18 @@ public class BackOfficeController {
             return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
+
+    // 사용자 강제 탈퇴 처리
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity<CommonResponseDto> deleteUser(@PathVariable Long userId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            backOfficeService.deleteUser(userId, userDetails);
+            return ResponseEntity.ok().body(new CommonResponseDto("사용자 강제탈퇴 처리 성공", HttpStatus.OK.value()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+    }
+
 
     // 관리자 권한 게시글 수정
     @PatchMapping("/posts/{postId}")
