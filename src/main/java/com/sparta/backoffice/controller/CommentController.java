@@ -17,15 +17,15 @@ import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/api/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
 
     // 댓글 작성 API
-    @PostMapping("/{postId}/comments")
-    public ResponseEntity<CommonResponseDto> createComment(@PathVariable Long postId,
+    @PostMapping("/{postId}")
+    public ResponseEntity<CommonResponseDto> createComment( @PathVariable Long postId,
                                                             @RequestBody CommentCreateRequestDto commentCreateRequestDto,
                                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
 
@@ -38,20 +38,19 @@ public class CommentController {
     }
 
     // 댓글 조회 API
-    @GetMapping("/{postId}/comments")
+    @GetMapping("/{postId}")
     public ResponseEntity<List<CommentResponseDto>> getComments(@PathVariable Long postId){
         List<CommentResponseDto> commentResponseDto = commentService.getComments(postId);
         return ResponseEntity.status(201).body(commentResponseDto);
     }
 
     // 댓글 수정 API
-    @PatchMapping("/{postId}/comments/{commentId}")
-    public ResponseEntity<CommonResponseDto> modifyComment(@PathVariable Long postId,
-                                                            @PathVariable Long commentId,
+    @PatchMapping("/{commentId}")
+    public ResponseEntity<CommonResponseDto> modifyComment( @PathVariable Long commentId,
                                                             @RequestBody CommentModifyRequestDto commentModifyRequestDto,
                                                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            commentService.modifyComment(postId, commentId, commentModifyRequestDto, userDetails.getUser());
+            commentService.modifyComment(commentId, commentModifyRequestDto, userDetails);
         } catch (AccessDeniedException e) {
             return ResponseEntity.badRequest().body(new CommonResponseDto("댓글 작성자만 수정 가능합니다.", HttpStatus.BAD_REQUEST.value()));
         }
@@ -59,13 +58,12 @@ public class CommentController {
     }
 
     // 댓글 삭제 API
-    @DeleteMapping("/{postId}/comments/{commentId}")
-    public ResponseEntity<CommonResponseDto> deleteComment(@PathVariable Long postId,
-                                                            @PathVariable Long commentId,
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<CommonResponseDto> deleteComment( @PathVariable Long commentId,
                                                            @AuthenticationPrincipal UserDetailsImpl userDetails){
 
         try {
-            commentService.deleteComment(postId, commentId, userDetails.getUser());
+            commentService.deleteComment(commentId, userDetails);
         } catch (AccessDeniedException e) {
             return ResponseEntity.badRequest().body(new CommonResponseDto("댓글 작성자만 삭제 가능합니다.", HttpStatus.BAD_REQUEST.value()));
         }

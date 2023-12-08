@@ -20,9 +20,10 @@ public class CommentResponseDto extends CommonResponseDto {
 
     public CommentResponseDto(Comment comment) {
         this.commentId = comment.getCommentId();
+        // user구현 시 닉네임 추가
+        this.nickname = comment.getUser().getNickname();
         this.text = comment.getText();
         this.createAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
-        // user구현 시 닉네임 추가
     }
 }
