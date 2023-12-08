@@ -94,7 +94,7 @@ public class UserController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
-        return ResponseEntity.status(HttpStatus.OK.value()).body(userResponseDto);
+        return ResponseEntity.ok().body(new CommonResponseDto("프로필 수정완료", HttpStatus.OK.value()));
+                //ResponseEntity.status(HttpStatus.OK.value()).body(userResponseDto);
     }
-
 }
