@@ -18,7 +18,7 @@ public class BackOfficeController {
 
     private final BackOfficeService backOfficeService;
 
-    // 관리자모드 게시글 삭제
+    // 관리자 권한 게시글 수정
     @PatchMapping("/posts/{postId}")
     public ResponseEntity<CommonResponseDto> adminUpdatePost(@PathVariable Long postId, @RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -29,4 +29,14 @@ public class BackOfficeController {
         }
     }
 
+    // 관리자 권한 게시글 삭제
+    @DeleteMapping("/posts/{postId}")
+    public ResponseEntity<CommonResponseDto> adminDeletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            backOfficeService.adminDeletePost(postId, userDetails);
+            return ResponseEntity.ok().body(new CommonResponseDto("삭제 완료", HttpStatus.OK.value()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+    }
 }

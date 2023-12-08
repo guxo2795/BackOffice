@@ -23,6 +23,14 @@ public class BackOfficeService {
         post.update(postRequestDto);
     }
 
+    public void adminDeletePost(Long postId, UserDetailsImpl userDetails) {
+        // 권한 검증 및 post 객체 생성
+        Post post = checkPostIdAndIsAdmin(postId, userDetails);
+        // DB에서 삭제
+        postRepository.delete(post);
+    }
+
+
     // 검증 메서드
     private Post checkPostIdAndIsAdmin(Long postId, UserDetailsImpl userDetails) {
         // 해당 id의 게시물이 존재하는지 검증 및 post 객체 생성
