@@ -51,10 +51,10 @@ public class User {
     private String userurl;
 
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Post> postList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<LikePost> postLikes = new ArrayList<>();
 
     public User(String username, String password, String nickname, UserRoleEnum role, Integer age, String email, String userinfo, String userurl) {
