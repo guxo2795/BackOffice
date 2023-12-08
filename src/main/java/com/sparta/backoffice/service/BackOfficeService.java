@@ -2,15 +2,21 @@ package com.sparta.backoffice.service;
 
 import com.sparta.backoffice.dto.CommentModifyRequestDto;
 import com.sparta.backoffice.dto.PostRequestDto;
+import com.sparta.backoffice.dto.UserResponseDto;
 import com.sparta.backoffice.entity.Comment;
 import com.sparta.backoffice.entity.Post;
+import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.repository.CommentRepository;
 import com.sparta.backoffice.repository.PostRepository;
+import com.sparta.backoffice.repository.UserRepository;
 import com.sparta.backoffice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +24,27 @@ public class BackOfficeService {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+
+    public List<UserResponseDto> getUserList(UserDetailsImpl userDetails) {
+        // 관리자인지 검증
+        boolean isAdmin = userDetails.getUser().getRole().equals(UserRoleEnum.ADMIN);
+
+        if (!isAdmin) {
+            throw new IllegalArgumentException("관리자가 아닙니다.");
+        }
+
+        // 전체 유저 리스트 생성
+        List<User> allUsers = userRepository.findAll();
+        // 반환 타입의 리스트 생성
+        List<UserResponseDto> userList = new ArrayList<>();
+
+        // 반복문을 통해 모든 user를 반환 타입의 리스트에 담은 후 반환
+        for (User user : allUsers) {
+            userList.add(new UserResponseDto(user));
+        }
+        return userList;
+    }
 
     @Transactional
     public void adminUpdatePost(Long postId, PostRequestDto postRequestDto, UserDetailsImpl userDetails) {

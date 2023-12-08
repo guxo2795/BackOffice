@@ -3,6 +3,7 @@ package com.sparta.backoffice.controller;
 import com.sparta.backoffice.dto.CommentModifyRequestDto;
 import com.sparta.backoffice.dto.CommonResponseDto;
 import com.sparta.backoffice.dto.PostRequestDto;
+import com.sparta.backoffice.dto.UserResponseDto;
 import com.sparta.backoffice.security.UserDetailsImpl;
 import com.sparta.backoffice.service.BackOfficeService;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +12,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
 public class BackOfficeController {
 
     private final BackOfficeService backOfficeService;
+
+    // 유저 전체 목록 조회
+    @GetMapping("/users")
+    public ResponseEntity<?> getUserList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            List<UserResponseDto> userList = backOfficeService.getUserList(userDetails);
+            return ResponseEntity.ok(userList);
+        } catch (IllegalArgumentException e) {
+
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+    }
+
 
     // 관리자 권한 게시글 수정
     @PatchMapping("/posts/{postId}")
