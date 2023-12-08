@@ -42,6 +42,13 @@ public class BackOfficeService {
         comment.update(commentModifyRequestDto);
     }
 
+    public void adminDeleteComment(Long commentId, UserDetailsImpl userDetails) {
+        // 권한 검증 및 comment 객체 생성
+        Comment comment = checkCommentIdAndIsAdmin(commentId, userDetails);
+        // DB에서 삭제
+        commentRepository.delete(comment);
+    }
+
     // 게시글 관련 검증 메서드
     private Post checkPostIdAndIsAdmin(Long postId, UserDetailsImpl userDetails) {
         // 해당 id의 게시물이 존재하는지 검증 및 post 객체 생성
