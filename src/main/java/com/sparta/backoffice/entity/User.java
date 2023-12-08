@@ -2,6 +2,7 @@ package com.sparta.backoffice.entity;
 
 
 import com.sparta.backoffice.dto.PwdUpdateRequestDto;
+import com.sparta.backoffice.dto.UpdateUserRoleRequestDto;
 import com.sparta.backoffice.dto.UserUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -77,5 +78,9 @@ public class User {
 
     public void updatePwd(String newPassword){
         this.password = newPassword;
+    }
+
+    public void updateRole(UpdateUserRoleRequestDto updateUserRoleRequestDto) {
+        this.role = updateUserRoleRequestDto.getRole();
     }
 }

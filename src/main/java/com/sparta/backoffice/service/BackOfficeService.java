@@ -2,6 +2,7 @@ package com.sparta.backoffice.service;
 
 import com.sparta.backoffice.dto.CommentModifyRequestDto;
 import com.sparta.backoffice.dto.PostRequestDto;
+import com.sparta.backoffice.dto.UpdateUserRoleRequestDto;
 import com.sparta.backoffice.dto.UserResponseDto;
 import com.sparta.backoffice.entity.Comment;
 import com.sparta.backoffice.entity.Post;
@@ -44,6 +45,22 @@ public class BackOfficeService {
             userList.add(new UserResponseDto(user));
         }
         return userList;
+    }
+
+    @Transactional
+    public void updateUserRole(Long userId, UpdateUserRoleRequestDto updateUserRoleRequestDto, UserDetailsImpl userDetails) {
+        // 해당 userId의 유저가 존재하는지 검증
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 없습니다."));
+
+        // 관리자가 맞는지 검증
+        boolean isAdmin = userDetails.getUser().getRole().equals(UserRoleEnum.ADMIN);
+
+        if (!isAdmin) {
+            throw new IllegalArgumentException("관리자가 아닙니다.");
+        }
+
+        // 유저 권한 수정
+        user.updateRole(updateUserRoleRequestDto);
     }
 
     @Transactional
