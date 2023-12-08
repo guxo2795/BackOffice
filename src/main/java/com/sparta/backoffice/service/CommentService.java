@@ -51,13 +51,10 @@ public class CommentService {
         List<Comment> findCommentList = commentRepository.findAll();
         List<Comment> postCommentList = new ArrayList<>();
 
-        // 요청받은 postId 와 db의 postId가 같다면 postId에 있는 댓글만 다 보여주기 (postId가 1일 때 1에 달린 댓글들만 볼 수 있도록)
+        // 요청받은 postId 와 db의 postId가 같다면 해당 postId에 있는 댓글만 다 보여주기 (postId가 1일 때 1에 달린 댓글 리스트 볼 수 있도록)
         for (Comment c : findCommentList) {
             if (c.getPost().getId().equals(postId)) {
                 postCommentList.add(c);
-            } else {
-                // 해당 게시물이 없다면 throw를 던져줘야 한다. throw new illegal 적용 시 조회 안됨
-//                throw new AccessDeniedException("존재하지 않는 게시물입니다.");
             }
         }
         return postCommentList.stream().map(CommentResponseDto::new).collect(Collectors.toList());
