@@ -20,5 +20,7 @@ public class UserRequestDto {
     private String email;
     private String userinfo;
     private String userurl;
+    private boolean admin = false;
+    private String adminToken = "";
 
 }

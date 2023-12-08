@@ -1,10 +1,14 @@
 package com.sparta.backoffice.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.backoffice.dto.*;
+import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.jwt.JwtUtil;
 import com.sparta.backoffice.security.UserDetailsImpl;
+import com.sparta.backoffice.service.KakaoService;
 import com.sparta.backoffice.service.UserService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
+    private final KakaoService kakaoService;
 
     @PostMapping("/signup")
     public ResponseEntity<CommonResponseDto> signup(@Valid @RequestBody UserRequestDto userRequestDto) {
@@ -27,7 +32,7 @@ public class UserController {
             userService.signup(userRequestDto);
         } catch (IllegalArgumentException exception) {
             return ResponseEntity.badRequest()
-                    .body(new CommonResponseDto("중복된 username입니다.", HttpStatus.BAD_REQUEST.value()));
+                    .body(new CommonResponseDto(exception.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
 
 
@@ -49,6 +54,20 @@ public class UserController {
 
         return ResponseEntity.ok().body(new CommonResponseDto("로그인 성공", HttpStatus.OK.value()));
     }
+
+    @GetMapping("/kakao/callback")
+    public String kakaoLogin(@RequestBody String code, HttpServletResponse response) throws JsonProcessingException {
+        String token = kakaoService.kakaoLogin(code);
+
+        Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, token.substring(7));
+        response.addCookie(cookie);
+
+        return null;
+    }
+
+
+
+
 
 
     @PostMapping("/checkpwd")
