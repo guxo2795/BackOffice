@@ -81,7 +81,7 @@ public class PostService {
         boolean isAdmin = userDetails.getUser().getRole().equals(UserRoleEnum.ADMIN);
 
         if (!Objects.equals(post.getUser().getId(), userDetails.getUser().getId()) && !isAdmin) {
-            throw new IllegalArgumentException("게시물 작성자나 관리자만 수정 및 삭제 가능합니다.");
+            throw new IllegalArgumentException("게시물 작성자만 수정 및 삭제 가능합니다.");
         }
 
         return post;
