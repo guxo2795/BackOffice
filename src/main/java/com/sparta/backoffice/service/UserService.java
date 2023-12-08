@@ -8,13 +8,8 @@ import com.sparta.backoffice.repository.UserRepository;
 import com.sparta.backoffice.security.UserDetailsImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Service
@@ -26,14 +21,13 @@ public class UserService {
     private User user;
     private String pwd, pwdcheck;
 
+    // ADMIN_TOKEN
+    private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
     // 회원가입
     public void signup(UserRequestDto userRequestDto) {
         String username = userRequestDto.getUsername();
         String password = passwordEncoder.encode(userRequestDto.getPassword());
-
-        UserRoleEnum role = userRequestDto.getRole();
-
         String nickname = userRequestDto.getNickname();
         Integer age = userRequestDto.getAge();
         String email = userRequestDto.getEmail();
@@ -43,6 +37,16 @@ public class UserService {
         if(userRepository.findByUsername(username).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 username입니다.");
         }
+
+        // 사용자 ROLE 확인
+        UserRoleEnum role = UserRoleEnum.USER;
+        if (userRequestDto.isAdmin()) {
+            if (!ADMIN_TOKEN.equals(userRequestDto.getAdminToken())) {
+                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
+            }
+            role = UserRoleEnum.ADMIN;
+        }
+
         User user = new User(username, password, nickname, role, age, email, userinfo, userurl);
         userRepository.save(user);
     }
