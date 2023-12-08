@@ -1,7 +1,9 @@
 package com.sparta.backoffice.controller;
 
+import com.sparta.backoffice.dto.CommentModifyRequestDto;
 import com.sparta.backoffice.dto.CommonResponseDto;
 import com.sparta.backoffice.dto.PostRequestDto;
+import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.security.UserDetailsImpl;
 import com.sparta.backoffice.service.BackOfficeService;
 import com.sparta.backoffice.service.PostService;
@@ -35,6 +37,17 @@ public class BackOfficeController {
         try {
             backOfficeService.adminDeletePost(postId, userDetails);
             return ResponseEntity.ok().body(new CommonResponseDto("삭제 완료", HttpStatus.OK.value()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+    }
+
+    // 관리자 권한 댓글 수정
+    @PatchMapping("/comments/{commentId}")
+    public ResponseEntity<CommonResponseDto> adminUpdateComment(@PathVariable Long commentId, @RequestBody CommentModifyRequestDto commentModifyRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            backOfficeService.adminUpdateComment(commentId, commentModifyRequestDto, userDetails);
+            return ResponseEntity.ok().body(new CommonResponseDto("수정 완료", HttpStatus.OK.value()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
