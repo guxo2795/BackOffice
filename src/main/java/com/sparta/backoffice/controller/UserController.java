@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 
 @RequestMapping("/api/users")
@@ -55,18 +56,20 @@ public class UserController {
         return ResponseEntity.ok().body(new CommonResponseDto("로그인 성공", HttpStatus.OK.value()));
     }
 
-    @GetMapping("/kakao/callback")
-    public String kakaoLogin(@RequestBody String code, HttpServletResponse response) throws JsonProcessingException {
-        String token = kakaoService.kakaoLogin(code);
+    @PostMapping("/kakaoLogin")
+    public ResponseEntity<CommonResponseDto> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
 
-        Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, token.substring(7));
-        response.addCookie(cookie);
+        try {
+            String token = kakaoService.kakaoLogin(code, response);
+            Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, token.substring(7));
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        } catch (HttpClientErrorException e){
+            return ResponseEntity.badRequest().body(new CommonResponseDto("로그인 실패", HttpStatus.BAD_REQUEST.value()));
+        }
 
-        return null;
+        return ResponseEntity.ok().body(new CommonResponseDto("로그인 성공", HttpStatus.OK.value()));
     }
-
-
-
 
 
 

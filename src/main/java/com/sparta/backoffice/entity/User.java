@@ -35,7 +35,7 @@ public class User {
     private UserRoleEnum role;
 
 
-    @Column(nullable = false)
+    @Column
     private String nickname;
 
     @Column
@@ -49,6 +49,9 @@ public class User {
 
     @Column
     private String userurl;
+
+
+    private Long kakaoId;
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -68,6 +71,14 @@ public class User {
         this.userurl = userurl;
     }
 
+    public User(String username, String password, String email, UserRoleEnum role, Long kakaoId) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.kakaoId = kakaoId;
+    }
+
     public void updateUser(UserUpdateRequestDto userUpdateRequestDto){
         this.nickname = userUpdateRequestDto.getNickname();
         this.age = userUpdateRequestDto.getAge();
@@ -82,5 +93,10 @@ public class User {
 
     public void updateRole(UpdateUserRoleRequestDto updateUserRoleRequestDto) {
         this.role = updateUserRoleRequestDto.getRole();
+    }
+
+    public User updateKakaId(Long kakaoId) {
+        this.kakaoId = kakaoId;
+        return this;
     }
 }
