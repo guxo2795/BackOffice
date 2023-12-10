@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -75,6 +77,20 @@ public class UserService {
         user = userDetails.getUser();
         String newPwd = passwordEncoder.encode(pwdUpdateRequestDto.getPassword());
         user.updatePwd(newPwd);
+
+        // 현재 비밀번호를 최근 사용한 비밀번호 목록에 추가
+//        user.getRecentHashedPasswords().add(newPwd);
+////
+////        // 비밀번호를 암호화하여 저장
+////        user.setPassword(passwordEncoder.encode(newPwd));
+//
+//        // 최근 사용한 비밀번호 갯수 제한
+//        int maxRecentPasswords = 3;
+//        List<String> recentPasswords = user.getRecentHashedPasswords();
+//        if (recentPasswords.size() > maxRecentPasswords) {
+//            recentPasswords.subList(0, recentPasswords.size() - maxRecentPasswords).clear();
+//        }
+
         if(!passwordEncoder.matches(pwd,pwdcheck)){
             System.out.println(pwdcheck);
             throw new IllegalArgumentException("비밀번호 확인을 해주세요");

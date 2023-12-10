@@ -2,6 +2,7 @@ package com.sparta.backoffice.controller;
 
 
 import com.sparta.backoffice.dto.*;
+import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.jwt.JwtUtil;
 import com.sparta.backoffice.security.UserDetailsImpl;
 import com.sparta.backoffice.service.UserService;
@@ -97,4 +98,5 @@ public class UserController {
         return ResponseEntity.ok().body(new CommonResponseDto("프로필 수정완료", HttpStatus.OK.value()));
                 //ResponseEntity.status(HttpStatus.OK.value()).body(userResponseDto);
     }
+
 }

@@ -56,6 +56,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<LikePost> postLikes = new ArrayList<>();
 
+    @ElementCollection
+    private List<String> recentHashedPasswords;
+
     public User(String username, String password, String nickname, UserRoleEnum role, Integer age, String email, String userinfo, String userurl) {
         this.username = username;
         this.password = password;
